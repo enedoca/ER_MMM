@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model Player {
+  userId        String             @id
+  nickname      String
+  gameRecords   PlayerGameRecord[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
+
+model Game {
+  gameId        Int                @id
+  seasonId      Int
+  matchingMode  Int                // 3: 랭크 대전
+  startDtm      DateTime?
+  participants  PlayerGameRecord[]
+  createdAt     DateTime           @default(now())
+}
+
+model PlayerGameRecord {
+  id              Int      @id @default(autoincrement())
+  
+  player          Player?  @relation(fields: [userId], references: [userId])
+  userId          String?
+
+  game            Game     @relation(fields: [gameId], references: [gameId])
+  gameId          Int
+  
+  nickname        String
+  characterNum    Int
+  characterLevel  Int
+  gameRank        Int
+  
+  // KDA
+  playerKill      Int
+  playerAssistant Int
+  monsterKill     Int
+  
+  // items & stats
+  damageToPlayer  Int
+  mmrGain         Int?
+  mmrAfter        Int?
+  
+  // Expanded fields for detailed analytics
+  damageToMonster   Int?      @default(0)
+  viewContribution  Int?      @default(0)
+  totalGainVFCredit Int?      @default(0)
+  teamKill          Int?      @default(0)
+  playerDeaths      Int?      @default(0)
+  bestWeapon        Int?      @default(0)
+  
+  // Store everything else in a JSON field for ML/AI analytics later
+  rawStats        Json?
+  
+  createdAt       DateTime @default(now())
+  
+  // In a real match, a player appears once
+  // @@unique([userId, gameId]) can't be used if userId is optional (some players might be anonymous/bots)
+}
+
+// Stores Language/Name Metadata from ER API
+model MetaInfo {
+  id        String   @id @default(uuid())
+  category  String   // e.g., "character", "weapon"
+  code      Int
+  name      String
+  
+  @@unique([category, code])
+}

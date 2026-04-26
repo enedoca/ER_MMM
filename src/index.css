@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+@theme {
+  --font-sans: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --border-color: #000;
+  --bg-color: #fff;
+}
+
+/* Custom styles from user request */
+.image-slot {
+  position: relative;
+  border: 1.5px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #eee;
+}
+
+.layer-bg { 
+  position: absolute; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 1; 
+  background: linear-gradient(45deg, #f3f3f3 25%, transparent 25%, transparent 50%, #f3f3f3 50%, #f3f3f3 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+
+.layer-top { 
+  position: absolute; 
+  width: 60%; 
+  height: 60%; 
+  z-index: 2; 
+  background: rgba(0,0,0,0.05);
+  border-radius: 2px;
+}
+
+.image-slot img { 
+  position: absolute; 
+  object-fit: cover; 
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* Slot shapes */
+.square { border-radius: 4px; }
+.circle { border-radius: 50%; }
+.rect { border-radius: 4px; }

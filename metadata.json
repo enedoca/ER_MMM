@@ -1,0 +1,5 @@
+{
+  "name": "ER.GG - 이터널 리턴 전적 검색",
+  "description": "이터널 리턴 플레이어의 상세 전적 검색 서비스. 킬, 어시스트, 팀킬 및 상세 매치 기록 확인 가능.",
+  "requestFramePermissions": []
+}
